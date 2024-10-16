@@ -2,10 +2,11 @@
 
 (require '[ring.adapter.jetty :refer [run-jetty]])
 (require '[compojure.core :refer [GET POST PUT DELETE defroutes context]])
+(require '[patient.data :as db])
 
 (defn make-response
   [response-string]
-   {:status 200
+  {:status 200
    :headers {"content-type" "text/plain"}
    :body response-string})
 
@@ -20,7 +21,11 @@
 
 (defn patient-create
   [request]
-  (make-response "new patient created"))
+  (let
+      [patient-raw (slurp (:body request))
+       patient-map (clojure.edn/read-string (str "{" patient-raw "}"))]
+    (db/put-patient! patient-map))
+  (make-response nil))
 
 (defn patient-update
   [request]
