@@ -12,3 +12,18 @@ down: ## Down application
 	docker compose down
 
 restart: down up ## Restart application
+
+shell: ## Shell at clojure docker
+	docker compose exec app bash
+
+run: ## Run application
+	docker compose exec app lein run -m patient.core
+
+test: ## Run app tests
+	docker compose exec app lein test
+
+deps: ## Upload dependencies
+	docker compose exec app lein deps
+
+log: ## Show container logs
+	docker compose logs -f

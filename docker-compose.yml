@@ -1,11 +1,14 @@
-volumes:
-    tmp-data: {}
-
 services:
     app:
         image: clojure:temurin-23-lein-alpine
+        working_dir: /app
+        volumes:
+            - ./:/app
+            - ./.m2:/root/.m2
         ports:
-            - 443:8043
+            - 9911:9911
+            - 8080:8080
+        command: ["lein", "with-profile", "+docker", "repl", ":headless"]
     db:
         image: postgres:17.0-alpine3.20
         restart: always
