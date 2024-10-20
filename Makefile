@@ -25,5 +25,8 @@ test: ## Run app tests
 deps: ## Upload dependencies
 	docker compose exec app lein deps
 
+psql: ## PostgreSql shell
+	docker compose exec db psql -U postgres -d patient_db
+
 log: ## Show container logs
 	docker compose logs -f

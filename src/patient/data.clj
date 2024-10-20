@@ -14,7 +14,7 @@
 (defn get-patient
   "Возвращает запись пациента по его ID"
   [id]
-  (nth @patients id))
+  (get @patients id))
 
 (defn put-patient!
   "Добавляет новую запись"
@@ -42,14 +42,19 @@
 (defn upd-patient!
   "Обновляет данные пациента (можно передавать только обновлённые поля)"
   [id new-data-of-patient]
-  (swap!
-   patients
-   #(vec
-     (concat
-      (subvec %1 0 %2)
-      [(change-patient-values! %3 %4)]
-      (subvec %1 (+ 1 %2))))
-   id
-   (@patients id)
-   new-data-of-patient))
+  (def patient (get-patient id))
+  (if (= nil patient)
+    false
+    (do
+      (swap!
+       patients
+       #(vec
+         (concat
+          (subvec %1 0 %2)
+          [(change-patient-values! %3 %4)]
+          (subvec %1 (+ 1 %2))))
+       id
+       patient
+       new-data-of-patient)
+      true)))
 
