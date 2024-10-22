@@ -40,7 +40,7 @@
    (seq new-values-map)))
 
 (defn upd-patient!
-  "Обновляет данные пациента (можно передавать только обновлённые поля)"
+  "Обновляет данные пациента (можно передавать только обновляемые поля)"
   [id new-data-of-patient]
   (def patient (get-patient id))
   (if (= nil patient)
