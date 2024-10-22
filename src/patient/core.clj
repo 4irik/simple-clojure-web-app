@@ -1,9 +1,9 @@
 (ns patient.core)
 
 (require '[ring.adapter.jetty :refer [run-jetty]])
-(require '[compojure.core :refer [GET POST PUT DELETE defroutes context wrap-routes]])
+(require '[compojure.core :refer [GET POST PATCH DELETE defroutes context wrap-routes]])
 (require '[compojure.coercions :refer [as-int]])
-(require '[patient.data :as db])
+(require '[patient.data :as db])и
 
 (defn make-response
   [response-string]
@@ -64,7 +64,7 @@
            (context "/:id{[0-9]+}" [id :<< as-int]
                     (GET "/" [] (patient-view id))
                     (->
-                     (PUT "/" {:keys [patient-data]} (patient-update id patient-data))
+                     (PATCH "/" {:keys [patient-data]} (patient-update id patient-data))
                      (wrap-routes wrap-patient-data))
                     (DELETE "/" [] (patient-delete id))))
   page-404)
