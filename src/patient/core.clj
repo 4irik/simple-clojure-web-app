@@ -3,7 +3,7 @@
 (require '[ring.adapter.jetty :refer [run-jetty]])
 (require '[compojure.core :refer [GET POST PATCH DELETE defroutes context wrap-routes]])
 (require '[compojure.coercions :refer [as-int]])
-(require '[patient.data :as db])и
+(require '[patient.data :as db])
 
 (defn make-response
   [response-string]
