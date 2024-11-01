@@ -1,4 +1,5 @@
-(ns patient.core)
+(ns patient.core
+  (:gen-class))
 
 (require '[ring.adapter.jetty :refer [run-jetty]])
 (require '[compojure.core :refer [GET POST PATCH DELETE defroutes context wrap-routes]])

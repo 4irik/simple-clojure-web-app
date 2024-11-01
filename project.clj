@@ -13,4 +13,6 @@
   {:docker
    {:repl-options {:port 9911
 		   :host "0.0.0.0"}
-    :plugins [[cider/cider-nrepl "0.50.2"]]}})
+    :plugins [[cider/cider-nrepl "0.50.2"]]}}
+  :main patient.core
+  :aot [patient.core])

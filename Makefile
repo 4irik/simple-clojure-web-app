@@ -2,7 +2,9 @@ help: ## Show this help
 	@printf "\033[33m%s:\033[0m\n" 'Available commands'
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z0-9_-]+:.*?## / {printf "  \033[32m%-18s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-build: ## Build containers
+.PHONY: build
+
+docker-build: ## Build containers
 	docker compose build
 
 up: ## Run application
@@ -24,6 +26,9 @@ test: ## Run app tests
 
 deps: ## Upload dependencies
 	docker compose exec app lein deps
+
+build: ## Build prod app docker-image
+	bash ./build/build.sh
 
 psql: ## PostgreSql shell
 	docker compose exec db psql -U postgres -d patient_db
