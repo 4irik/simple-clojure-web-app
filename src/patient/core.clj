@@ -7,36 +7,37 @@
 (require '[patient.data :as db])
 
 (defn make-response
-  [response-string]
-  {:status 200
-   :headers {"content-type" "text/plain"}
-   :body response-string})
+  ([response-string]
+   (make-response response-string 200))
+  ([response-string status]
+   {:status status
+    :headers {"content-type" "text/plain"}
+    :body response-string}))
 
-;; todo: должен быть 404 код ответа
 (defn page-404
   [request]
-  (make-response "No such a page."))
+  (make-response "No such a page." 404))
 
 (defn patient-list
   [request]
-  (make-response (str (db/get-patients))))
+  (make-response (str (db/get-patients)) 200))
 
 (defn patient-view
   [id]
   (let [patient (db/get-patient id)]
     (if patient
-      (make-response (str patient))
+      (make-response (str patient) 200)
       (page-404 []))))
 
 (defn patient-create
   [patient-data]
   (db/put-patient! patient-data)
-  (make-response nil))
+  (make-response nil 201))
 
 (defn patient-update
   [id patient-data]
   (if (db/upd-patient! id patient-data)
-    (make-response nil)
+    (make-response nil 204)
     (page-404 [])))
 
 (defn patient-delete
@@ -44,7 +45,7 @@
   (if (db/get-patient id)
     (do
       (db/del-patient! id)
-      (make-response nil))
+      (make-response nil 204))
     (page-404 [])))
 
 (defn wrap-patient-data
@@ -73,4 +74,4 @@
 
 (defn -main
   [& args]
- (run-jetty app {:port 8080 :join? true}))
+  (run-jetty app {:port 8080 :join? true}))
